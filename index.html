@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fieldstone AS</title>
-  <meta name="description" content="Fieldstone AS (org.nr. 928 981 975) utvikler og drifter Hund i Oslo, en mobilapp for hundeeiere i Oslo.">
+  <meta name="description" content="Fieldstone AS (org.nr. 928 981 975) utvikler apper som gjør hverdagen enklere. Den første appen er Hund i Oslo, for hundeeiere i Oslo.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta property="og:title" content="Fieldstone AS">
-  <meta property="og:description" content="Fieldstone AS utvikler og drifter Hund i Oslo, en mobilapp for hundeeiere i Oslo.">
+  <meta property="og:description" content="Fieldstone AS utvikler apper som gjør hverdagen enklere. Den første appen er Hund i Oslo, for hundeeiere i Oslo.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fieldstone.no/">
   <meta property="og:locale" content="nb_NO">
   <link rel="canonical" href="https://fieldstone.no/">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231C1C1E'/%3E%3Cpath d='M6 19c-1.500-5 2-11.500 9-12.500 6.500-.9 11.500 3 12 8.500.5 6-4 10.500-11 10.500-5 0-8.700-2.200-10-6.500z' fill='%23F2F2F7'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231C1C1E'/%3E%3Cpath d='M8.5 19.5 10.5 12.5 16.5 9 22.5 11 24.5 16 22.5 21.5 16 23 10.5 22.5z' fill='%23F2F2F7' stroke='%23F2F2F7' stroke-width='7' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
     :root {
       --bg: #F2F2F7;
@@ -22,6 +22,7 @@
       --text: #1C1C1E;
       --muted: #5F5F66;
       --line: #E5E5EA;
+      --dash: #C7C7CC;
       --accent: #C2410C;
       --accent-text: #9B340A;
       --on-accent: #FFFFFF;
@@ -54,6 +55,7 @@
         --text: #F2F2F7;
         --muted: #AEAEB2;
         --line: #38383A;
+        --dash: #48484A;
         --accent: #C2410C;
         --accent-text: #FF9A62;
         --on-accent: #FFFFFF;
@@ -144,6 +146,14 @@
 
     .brand svg { width: 26px; height: 26px; }
 
+    .brand .facet {
+      fill: none;
+      stroke: var(--bg);
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      opacity: 0.28;
+    }
+
     .nav {
       display: flex;
       gap: 24px;
@@ -201,7 +211,7 @@
 
     h1 {
       margin: 0 auto 20px;
-      max-width: 14ch;
+      max-width: 17ch;
       font-size: clamp(42px, 8.4vw, 84px);
       line-height: 1.02;
       font-weight: 700;
@@ -393,6 +403,83 @@
     .chip.c3 { left: 12%; bottom: 14%; animation-delay: -4s; }
     .chip.c3 i { background: #0B63CE; }
 
+    .section-head {
+      max-width: 34em;
+      margin: 0 0 32px;
+    }
+
+    .section-head .desc {
+      margin: 0;
+      font-size: 19px;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--t2-bg);
+      color: var(--t2-fg);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .product-title {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 4.6vw, 46px);
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
+    .soon {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 16px;
+      padding: 28px;
+      border: 2px dashed var(--dash);
+      border-radius: 28px;
+    }
+
+    .soon .plus {
+      flex: none;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      color: var(--accent-text);
+      font-size: 30px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .soon h3 {
+      margin: 0 0 2px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .soon p {
+      margin: 0;
+      color: var(--muted);
+    }
+
     /* Feature tiles */
 
     .tiles {
@@ -449,6 +536,15 @@
       line-height: 1.4;
       color: var(--muted);
     }
+
+    .tiles.values {
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 0;
+    }
+
+    .values .tile { padding: 28px 24px; }
+    .values .tile h3 { font-size: 21px; }
+    .values .tile p { font-size: 16px; }
 
     .t1 .icon { background: var(--t1-bg); color: var(--t1-fg); }
     .t2 .icon { background: var(--t2-bg); color: var(--t2-fg); }
@@ -547,6 +643,8 @@
       .tiles { grid-template-columns: repeat(6, 1fr); }
       .tile { grid-column: span 2; }
       .tile:nth-child(n+4) { grid-column: span 3; }
+      .tiles.values { grid-template-columns: repeat(3, 1fr); }
+      .values .tile { grid-column: auto; }
     }
 
     @media (max-width: 760px) {
@@ -566,6 +664,9 @@
       .tile, .tile:nth-child(n+4) { grid-column: auto; }
       .tile:last-child { grid-column: span 2; }
       .tile { padding: 18px 16px; }
+      .tiles.values { grid-template-columns: 1fr; }
+      .values .tile, .values .tile:last-child { grid-column: auto; padding: 22px 20px; }
+      .soon { padding: 20px; gap: 16px; }
       .row { flex-direction: column; gap: 2px; padding: 14px 0; }
       dt { flex: none; font-size: 15px; }
       .actions .button { flex: 1 1 100%; justify-content: center; }
@@ -577,11 +678,11 @@
   <div class="bar">
     <div class="wrap">
       <a class="brand" href="/" aria-label="Fieldstone AS, forsiden">
-        <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M6 19c-1.500-5 2-11.500 9-12.500 6.500-.9 11.500 3 12 8.500.5 6-4 10.500-11 10.500-5 0-8.700-2.200-10-6.500z"/></svg>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="7" stroke-linejoin="round" d="M8.5 19.5 10.5 12.5 16.5 9 22.5 11 24.5 16 22.5 21.5 16 23 10.5 22.5z"/><path class="facet" d="M10.5 13.5c1.6-2.2 3.6-3.4 6-3.7"/></svg>
         Fieldstone
       </a>
       <nav class="nav" aria-label="Hovedmeny">
-        <a href="#hund-i-oslo">Hund i Oslo</a>
+        <a href="#apper">Apper</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
     </div>
@@ -591,21 +692,47 @@
     <header class="hero">
       <div class="wrap">
         <p class="eyebrow rise">Fieldstone AS · Oslo</p>
-        <h1 class="rise d1">Selskapet bak <em>Hund i Oslo</em></h1>
-        <p class="lead rise d2">Fieldstone AS utvikler og drifter Hund i Oslo, en mobilapp for hundeeiere i Oslo.</p>
+        <h1 class="rise d1">Apper som gjør hverdagen <em>enklere</em></h1>
+        <p class="lead rise d2">Fieldstone AS utvikler apper folk har lyst til å bruke. Apper som sparer tid, fjerner styr og gjør hverdagen litt bedre.</p>
         <div class="actions rise d3">
-          <a class="button" href="#hund-i-oslo">Se Hund i Oslo</a>
+          <a class="button" href="#apper">Se appene våre</a>
           <a class="button quiet" href="#kontakt">Kontakt oss</a>
         </div>
       </div>
     </header>
 
     <div class="wrap">
-      <section id="hund-i-oslo" aria-labelledby="hund-i-oslo-title">
-        <div class="card product rise d4">
+      <section aria-label="Slik tenker vi">
+        <ul class="tiles values rise d4">
+          <li class="tile t1">
+            <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.3l2.4 2.4 4.6-5"/></svg></div>
+            <h3>Nyttig</h3>
+            <p>Vi lager apper som løser noe ekte i hverdagen.</p>
+          </li>
+          <li class="tile t4">
+            <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.7 14a4 4 0 0 0 6.6 0M9.2 9.8h.01M14.8 9.8h.01"/></svg></div>
+            <h3>Enkelt</h3>
+            <p>Lett å forstå og raskt å bruke, helt fra første gang.</p>
+          </li>
+          <li class="tile t2">
+            <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></div>
+            <h3>Effektivt</h3>
+            <p>Mindre tid på det kjedelige, mer tid til det som betyr noe.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="apper" aria-labelledby="apper-title">
+        <div class="section-head">
+          <p class="kicker">Appene våre</p>
+          <h2 id="apper-title">Først ut: Hund i Oslo</h2>
+          <p class="desc">Hund i Oslo er den første appen vi har lansert. Flere er på vei.</p>
+        </div>
+
+        <div class="card product" id="hund-i-oslo">
           <div class="product-text">
-            <p class="kicker">Appen vår</p>
-            <h2 id="hund-i-oslo-title">Hund i Oslo</h2>
+            <p class="badge">Lansert</p>
+            <h3 class="product-title">Hund i Oslo</h3>
             <p class="desc">En mobilapp for hundeeiere i Oslo, med hundevennlige steder, turer, treff, hundevenner og meldinger.</p>
             <a class="button" href="https://hundioslo-production-59lmi1.laravel.cloud/">
               Gå til Hund i Oslo
@@ -665,6 +792,14 @@
             <p>Send meldinger til andre hundeeiere.</p>
           </li>
         </ul>
+
+        <div class="soon">
+          <span class="plus" aria-hidden="true">+</span>
+          <div>
+            <h3>Flere apper er på vei</h3>
+            <p>Hund i Oslo er bare starten. Vi jobber med flere apper.</p>
+          </div>
+        </div>
       </section>
 
       <section id="kontakt" class="contact" aria-labelledby="kontakt-title">
