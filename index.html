@@ -14,9 +14,19 @@
   <meta property="og:url" content="https://fieldstone.no/">
   <meta property="og:locale" content="nb_NO">
   <link rel="canonical" href="https://fieldstone.no/">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231C1C1E'/%3E%3Cpath d='M8.5 19.5 10.5 12.5 16.5 9 22.5 11 24.5 16 22.5 21.5 16 23 10.5 22.5z' fill='%23F2F2F7' stroke='%23F2F2F7' stroke-width='7' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='4.5 4 24 24'%3E%3Cpath d='M8.5 19.5 10.5 12.5 16.5 9 22.5 11 24.5 16 22.5 21.5 16 23 10.5 22.5z' fill='%231C1C1E' stroke='%231C1C1E' stroke-width='7' stroke-linejoin='round'/%3E%3Cpath d='M10.5 13.5c1.6-2.2 3.6-3.4 6-3.7' fill='none' stroke='%23F2F2F7' stroke-width='1.3' stroke-linecap='round' opacity='0.28'/%3E%3C/svg%3E">
+  <script>document.documentElement.classList.add('js');</script>
   <style>
     :root {
+      --spot: rgba(247, 150, 56, 0.20);
+      --stone: #FFFFFF;
+      --stone-shadow: rgba(28, 28, 30, 0.13);
+      --facet: rgba(28, 28, 30, 0.10);
+      --em-hi: #DD5A1B;
+      --stone-amber: #FBF0D9;
+      --stone-green: #E4F3E9;
+      --stone-orange: #FBE9E0;
+      --stone-blue: #E3EEFB;
       --bg: #F2F2F7;
       --card: #FFFFFF;
       --text: #1C1C1E;
@@ -50,6 +60,15 @@
 
     @media (prefers-color-scheme: dark) {
       :root {
+        --spot: rgba(255, 138, 61, 0.14);
+        --stone: #232325;
+        --stone-shadow: rgba(0, 0, 0, 0);
+        --facet: rgba(255, 255, 255, 0.22);
+        --em-hi: #FFD08A;
+        --stone-amber: #3A2E17;
+        --stone-green: #1B3324;
+        --stone-orange: #3A2418;
+        --stone-blue: #1A2B40;
         --bg: #000000;
         --card: #1C1C1E;
         --text: #F2F2F7;
@@ -202,6 +221,63 @@
       color: var(--accent-text);
     }
 
+    @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+      h1 em {
+        background: linear-gradient(100deg, var(--accent-text) 20%, var(--em-hi) 50%, var(--accent-text) 80%) 0 0 / 220% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: sheen 9s linear infinite;
+      }
+    }
+
+    /* Light that follows the pointer */
+
+    .spot {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      background: radial-gradient(460px circle at var(--px, 50%) var(--py, 30%), var(--spot), transparent 68%);
+    }
+
+    .spot.on { opacity: 1; }
+
+    /* Stones drifting in the hero */
+
+    .defs { position: absolute; width: 0; height: 0; }
+
+    .stone {
+      position: absolute;
+      z-index: -1;
+      color: var(--stone);
+      filter: drop-shadow(0 12px 18px var(--stone-shadow));
+      opacity: 0;
+      animation: appear 1.4s ease 0.3s forwards;
+      will-change: transform;
+    }
+
+    .stone svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      animation: bob 9s ease-in-out infinite;
+    }
+
+    .s1 { width: 104px; height: 104px; left: 7%; top: 19%; rotate: -14deg; }
+    .s2 { width: 62px; height: 62px; right: 9%; top: 13%; rotate: 24deg; color: var(--stone-amber); }
+    .s2 svg { animation-delay: -3s; }
+    .s3 { width: 128px; height: 128px; right: 5%; bottom: 15%; rotate: 150deg; }
+    .s3 svg { animation-delay: -6s; }
+    .s4 { width: 54px; height: 54px; left: 12%; bottom: 15%; rotate: 70deg; color: var(--stone-green); }
+    .s4 svg { animation-delay: -1.5s; }
+    .s5 { width: 30px; height: 30px; left: 25%; top: 9%; rotate: -40deg; color: var(--stone-orange); filter: blur(1.2px); }
+    .s5 svg { animation-delay: -4.5s; }
+    .s6 { width: 26px; height: 26px; right: 24%; bottom: 9%; rotate: 100deg; color: var(--stone-blue); filter: blur(1.2px); }
+    .s6 svg { animation-delay: -7.5s; }
+
     .lead {
       margin: 0 auto 36px;
       max-width: 34em;
@@ -245,7 +321,13 @@
 
     .button.quiet:hover { box-shadow: var(--shadow-lift); }
 
-    .button svg { width: 18px; height: 18px; }
+    .button svg {
+      width: 18px;
+      height: 18px;
+      transition: translate 0.25s ease;
+    }
+
+    .button:hover svg { translate: 3px 0; }
 
     /* Sections */
 
@@ -335,6 +417,15 @@
     }
 
     .m-stop { fill: var(--accent); stroke: var(--map-road); stroke-width: 4; }
+
+    .m-pulse {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulse 2.6s ease-out infinite;
+    }
 
     .app-icon {
       position: absolute;
@@ -444,7 +535,10 @@
       font-size: 30px;
       font-weight: 300;
       line-height: 1;
+      transition: rotate 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
     }
+
+    .soon:hover .plus { rotate: 90deg; }
 
     .soon h3 {
       margin: 0 0 2px;
@@ -470,12 +564,27 @@
     }
 
     .tile {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
       padding: 22px 20px;
       border-radius: 24px;
       background: var(--card);
       box-shadow: var(--shadow);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
+
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--spot), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .tile:hover::before { opacity: 1; }
 
     .tile:hover {
       transform: translateY(-4px);
@@ -520,15 +629,94 @@
       margin-top: 0;
     }
 
-    .values .tile { padding: 28px 24px; }
-    .values .tile h3 { font-size: 21px; }
-    .values .tile p { font-size: 16px; }
 
     .t1 .icon { background: var(--t1-bg); color: var(--t1-fg); }
     .t2 .icon { background: var(--t2-bg); color: var(--t2-fg); }
     .t3 .icon { background: var(--t3-bg); color: var(--t3-fg); }
     .t4 .icon { background: var(--t4-bg); color: var(--t4-fg); }
     .t5 .icon { background: var(--t5-bg); color: var(--t5-fg); }
+
+    /* Value cards */
+
+    .values .t1 { --tone-bg: var(--t1-bg); --tone-fg: var(--t1-fg); --turn: -14deg; }
+    .values .t4 { --tone-bg: var(--t4-bg); --tone-fg: var(--t4-fg); --turn: 150deg; }
+    .values .t2 { --tone-bg: var(--t2-bg); --tone-fg: var(--t2-fg); --turn: 62deg; }
+
+    .values .tile {
+      padding: 30px 28px 32px;
+      background:
+        radial-gradient(130% 100% at 0% 0%, var(--tone-bg), transparent 62%),
+        var(--card);
+    }
+
+    .values .tile::before {
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--tone-fg) 16%, transparent), transparent 70%);
+    }
+
+    .values .num {
+      position: absolute;
+      top: 20px;
+      right: 26px;
+      font-size: 60px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      font-variant-numeric: tabular-nums;
+      color: var(--tone-fg);
+      opacity: 0.13;
+      transition: opacity 0.4s ease, translate 0.4s ease;
+    }
+
+    .values .tile:hover .num {
+      opacity: 0.24;
+      translate: 0 -3px;
+    }
+
+    .values .icon {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      margin: -4px 0 22px -8px;
+      border-radius: 0;
+      background: none;
+      color: var(--tone-fg);
+    }
+
+    .values .pebble {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      stroke: none;
+      color: color-mix(in srgb, var(--tone-fg) 26%, var(--card));
+      rotate: var(--turn);
+      filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--tone-fg) 16%, transparent));
+      transition: rotate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), scale 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .values .tile:hover .pebble {
+      rotate: calc(var(--turn) + 24deg);
+      scale: 1.08;
+    }
+
+    .values .glyph {
+      position: relative;
+      width: 30px;
+      height: 30px;
+    }
+
+    .values .tile h3 { font-size: 24px; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 8px; text-wrap: balance; }
+    .values .tile p { font-size: 17px; line-height: 1.45; }
+
+    .values .check { stroke-dasharray: 1; }
+    .values .tile:hover .check { animation: draw 0.6s ease-out; }
+    .values .tile:hover .face { animation: nod 0.7s ease-in-out; }
+
+    .values .tile:hover .zap { animation: zap 0.6s ease-out; }
+
+    @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+    @keyframes nod { 30% { rotate: -14deg; } 65% { rotate: 10deg; } }
+    @keyframes zap { 35% { scale: 1.25; rotate: -10deg; } 70% { scale: 0.95; rotate: 4deg; } }
 
     /* Contact */
 
@@ -602,6 +790,31 @@
       to { stroke-dashoffset: -14; }
     }
 
+    @keyframes appear { to { opacity: 1; } }
+
+    @keyframes bob {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -10px; }
+    }
+
+    @keyframes sheen { to { background-position: -220% 0; } }
+
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 0.8; }
+      to { transform: scale(3); opacity: 0; }
+    }
+
+    .js .reveal {
+      opacity: 0;
+      translate: 0 26px;
+    }
+
+    .js .reveal.in {
+      opacity: 1;
+      translate: 0 0;
+      transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), translate 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
     .rise { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
     .d1 { animation-delay: 0.08s; }
     .d2 { animation-delay: 0.16s; }
@@ -610,8 +823,12 @@
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .rise, .chip, .m-route { animation: none; }
-      .button, .tile { transition: none; }
+      .rise, .chip, .m-route, .m-pulse, .stone svg, h1 em { animation: none; }
+      .stone { animation: none; opacity: 1; }
+      .js .reveal { opacity: 1; translate: none; }
+      .button, .button svg, .tile, .soon .plus, .values .num, .values .pebble { transition: none; }
+      .values .tile:hover .check, .values .tile:hover .face, .values .tile:hover .zap { animation: none; }
+      .values .tile:hover .pebble { rotate: var(--turn); scale: 1; }
       .button:hover, .tile:hover { transform: none; }
     }
 
@@ -625,8 +842,20 @@
       .values .tile { grid-column: auto; }
     }
 
+    @media (max-width: 1000px) {
+      .s1 { width: 76px; height: 76px; left: 2%; top: 9%; }
+      .s2 { width: 48px; height: 48px; right: 4%; top: 7%; }
+      .s3 { width: 88px; height: 88px; right: 0; bottom: 8%; }
+      .s4 { width: 44px; height: 44px; left: 5%; bottom: 8%; }
+      .s5, .s6 { display: none; }
+    }
+
     @media (max-width: 760px) {
       .hero { padding: 72px 0 64px; }
+      .s1 { width: 56px; height: 56px; left: -2%; top: 5%; }
+      .s2 { width: 38px; height: 38px; right: 3%; top: 4%; }
+      .s3 { width: 64px; height: 64px; right: -3%; bottom: 4%; }
+      .s4 { width: 34px; height: 34px; left: 4%; bottom: 3%; }
       section { padding-bottom: 64px; }
       .product { grid-template-columns: 1fr; }
       .map { order: -1; min-height: 300px; }
@@ -643,7 +872,8 @@
       .tile:last-child { grid-column: span 2; }
       .tile { padding: 18px 16px; }
       .tiles.values { grid-template-columns: 1fr; }
-      .values .tile, .values .tile:last-child { grid-column: auto; padding: 22px 20px; }
+      .values .tile, .values .tile:last-child { grid-column: auto; padding: 24px 22px 26px; }
+      .values .icon { margin-bottom: 18px; }
       .soon { padding: 20px; gap: 16px; }
       .row { flex-direction: column; gap: 2px; padding: 14px 0; }
       dt { flex: none; font-size: 15px; }
@@ -653,6 +883,14 @@
   </style>
 </head>
 <body>
+  <div class="spot" aria-hidden="true"></div>
+  <svg class="defs" aria-hidden="true">
+    <symbol id="stone" viewBox="0 0 32 32">
+      <path d="M8.5 19.5 10.5 12.5 16.5 9 22.5 11 24.5 16 22.5 21.5 16 23 10.5 22.5z" fill="currentColor" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M10.5 13.5c1.6-2.2 3.6-3.4 6-3.7" style="fill:none;stroke:var(--facet);stroke-width:1.2;stroke-linecap:round"/>
+    </symbol>
+  </svg>
+
   <div class="bar">
     <div class="wrap">
       <a class="brand" href="/" aria-label="Fieldstone AS, forsiden">
@@ -668,6 +906,12 @@
 
   <main>
     <header class="hero">
+      <div class="stone s1" data-depth="26" aria-hidden="true"><svg><use href="#stone"/></svg></div>
+      <div class="stone s2" data-depth="-18" aria-hidden="true"><svg><use href="#stone"/></svg></div>
+      <div class="stone s3" data-depth="34" aria-hidden="true"><svg><use href="#stone"/></svg></div>
+      <div class="stone s4" data-depth="-24" aria-hidden="true"><svg><use href="#stone"/></svg></div>
+      <div class="stone s5" data-depth="10" aria-hidden="true"><svg><use href="#stone"/></svg></div>
+      <div class="stone s6" data-depth="-12" aria-hidden="true"><svg><use href="#stone"/></svg></div>
       <div class="wrap">
         <h1 class="rise d1">Apper som gjør hverdagen <em>enklere</em></h1>
         <p class="lead rise d2">Fieldstone AS utvikler apper folk har lyst til å bruke. Apper som sparer tid, fjerner styr og gjør hverdagen litt bedre.</p>
@@ -682,31 +926,34 @@
       <section aria-label="Slik tenker vi">
         <ul class="tiles values rise d4">
           <li class="tile t1">
-            <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.3l2.4 2.4 4.6-5"/></svg></div>
-            <h3>Nyttig</h3>
-            <p>Vi lager apper som løser noe ekte i hverdagen.</p>
+            <span class="num" aria-hidden="true">01</span>
+            <div class="icon"><svg class="pebble" aria-hidden="true"><use href="#stone"/></svg><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><circle class="check" pathLength="1" cx="12" cy="8.3" r="3.6"/><path class="check" pathLength="1" d="M5 19.8a7 7 0 0 1 14 0"/></svg></div>
+            <h3>Vi bruker dem selv</h3>
+            <p>Appene løser problemer vi har i vår egen hverdag.</p>
           </li>
           <li class="tile t4">
-            <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.7 14a4 4 0 0 0 6.6 0M9.2 9.8h.01M14.8 9.8h.01"/></svg></div>
-            <h3>Enkelt</h3>
-            <p>Lett å forstå og raskt å bruke, helt fra første gang.</p>
+            <span class="num" aria-hidden="true">02</span>
+            <div class="icon"><svg class="pebble" aria-hidden="true"><use href="#stone"/></svg><svg class="glyph face" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.7 14a4 4 0 0 0 6.6 0M9.2 9.8h.01M14.8 9.8h.01"/></svg></div>
+            <h3>Vi holder det enkelt</h3>
+            <p>Ingen unødvendige valg, bare det du trenger.</p>
           </li>
           <li class="tile t2">
-            <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></div>
-            <h3>Effektivt</h3>
-            <p>Mindre tid på det kjedelige, mer tid til det som betyr noe.</p>
+            <span class="num" aria-hidden="true">03</span>
+            <div class="icon"><svg class="pebble" aria-hidden="true"><use href="#stone"/></svg><svg class="glyph zap" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5.5 13.5H11l-1 7.5 7.500-10.500H12z"/></svg></div>
+            <h3>Vi bygger moderne</h3>
+            <p>Den nyeste teknologien, fra første linje kode.</p>
           </li>
         </ul>
       </section>
 
       <section id="apper" aria-labelledby="apper-title">
-        <div class="section-head">
+        <div class="section-head reveal">
           <p class="kicker">Appene våre</p>
           <h2 id="apper-title">Først ut: Hund i Oslo</h2>
           <p class="desc">Hund i Oslo er den første appen vi har lansert. Flere er på vei.</p>
         </div>
 
-        <div class="card product" id="hund-i-oslo">
+        <div class="card product reveal" id="hund-i-oslo">
           <div class="product-text">
             <p class="badge">Lansert</p>
             <h3 class="product-title">Hund i Oslo</h3>
@@ -730,6 +977,7 @@
               <path class="m-road" stroke-width="8" d="M-20 40L580 20M40-20l30 460"/>
               <path class="m-road" stroke-width="14" d="M-20 150L580 90M150-20l80 460M400-20l-40 460M-20 330l600-40"/>
               <path class="m-route" d="M60 330c80-70 140-30 220-115s150-15 230-95"/>
+              <circle class="m-pulse" cx="510" cy="120" r="9"/>
               <circle class="m-stop" cx="60" cy="330" r="9"/>
               <circle class="m-stop" cx="510" cy="120" r="9"/>
             </svg>
@@ -742,7 +990,7 @@
           </div>
         </div>
 
-        <ul class="tiles">
+        <ul class="tiles reveal">
           <li class="tile t1">
             <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.500-5.600-6.500-10.500a6.500 6.500 0 0 1 13 0C18.500 15.400 12 21 12 21z"/><circle cx="12" cy="10.500" r="2.300"/></svg></div>
             <h3>Steder</h3>
@@ -770,7 +1018,7 @@
           </li>
         </ul>
 
-        <div class="soon">
+        <div class="soon reveal">
           <span class="plus" aria-hidden="true">+</span>
           <div>
             <h3>Flere apper er på vei</h3>
@@ -780,7 +1028,7 @@
       </section>
 
       <section id="kontakt" class="contact" aria-labelledby="kontakt-title">
-        <div class="contact-intro">
+        <div class="contact-intro reveal">
           <p class="kicker">Selskapet</p>
           <h2 id="kontakt-title">Kontakt</h2>
           <p class="desc">Ta kontakt med Fieldstone AS på e-post.</p>
@@ -790,7 +1038,7 @@
           </a>
         </div>
 
-        <div class="card details">
+        <div class="card details reveal">
           <dl>
             <div class="row">
               <dt>Selskap</dt>
@@ -820,5 +1068,71 @@
       <span>Messepromenaden 1, 0279 Oslo</span>
     </div>
   </footer>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      /* Sections ease in as they scroll into view */
+      var items = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !calm) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+        items.forEach(function (el) { io.observe(el); });
+      } else {
+        items.forEach(function (el) { el.classList.add('in'); });
+      }
+
+      if (calm) return;
+
+      /* Stones drift with the pointer and the scroll */
+      var stones = [].slice.call(document.querySelectorAll('.stone'));
+      var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+
+      function tick() {
+        cx += (tx - cx) * 0.06;
+        cy += (ty - cy) * 0.06;
+        var sy = Math.min(scrollY, 1000);
+        for (var i = 0; i < stones.length; i++) {
+          var d = +stones[i].dataset.depth;
+          stones[i].style.transform = 'translate3d(' + (cx * d * 2).toFixed(1) + 'px,' + (cy * d * 2 - sy * d * 0.006).toFixed(1) + 'px,0)';
+        }
+        raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.0005 ? requestAnimationFrame(tick) : 0;
+      }
+
+      function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+
+      addEventListener('scroll', kick, { passive: true });
+
+      if (!fine) return;
+
+      /* Soft light under the pointer */
+      var spot = document.querySelector('.spot');
+      addEventListener('pointermove', function (e) {
+        root.style.setProperty('--px', e.clientX + 'px');
+        root.style.setProperty('--py', e.clientY + 'px');
+        spot.classList.add('on');
+        tx = e.clientX / innerWidth - 0.5;
+        ty = e.clientY / innerHeight - 0.5;
+        kick();
+      }, { passive: true });
+      root.addEventListener('pointerleave', function () { spot.classList.remove('on'); });
+
+      document.querySelectorAll('.tile').forEach(function (tile) {
+        tile.addEventListener('pointermove', function (e) {
+          var r = tile.getBoundingClientRect();
+          tile.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          tile.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
